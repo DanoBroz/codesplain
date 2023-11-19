@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import RepositoriesListItem from "./RepositoriesListItem";
-import { async } from "validate.js";
 
 function renderComponent() {
     const repository = {
@@ -17,12 +16,21 @@ function renderComponent() {
             <RepositoriesListItem repository={repository} />
         </MemoryRouter>
     );
+
+    return { repository };
 }
 
 test("shows a link to the github homepage or this repository", async () => {
-    renderComponent();
+    const {
+        repository: { html_url },
+    } = renderComponent();
 
     await screen.findByRole("img", {
         name: "Javascript",
     });
+
+    const link = screen.getByRole("link", {
+        name: /github repository/i,
+    });
+    expect(link).toHaveAttribute("href", html_url);
 });
