@@ -34,3 +34,13 @@ test("shows a link to the github homepage or this repository", async () => {
     });
     expect(link).toHaveAttribute("href", html_url);
 });
+
+test("shows a file icon with the appropriate icon", async () => {
+    renderComponent();
+
+    const icon = await screen.findByRole("img", {
+        name: "Javascript",
+    });
+
+    expect(icon).toHaveClass("js-icon");
+});
