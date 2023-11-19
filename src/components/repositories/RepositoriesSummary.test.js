@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import RepositoriesSummary from "./RepositoriesSummary";
 
-test("displays primary language of the repository", () => {
+test("displays information about the repository", () => {
     const repository = {
         stargazers_count: 5,
         forks: 30,
@@ -11,7 +11,10 @@ test("displays primary language of the repository", () => {
 
     render(<RepositoriesSummary repository={repository} />);
 
-    const language = screen.getByText("Javascript");
+    for (let key in repository) {
+        const value = repository[key];
+        const element = screen.getByText(new RegExp(value));
 
-    expect(language).toBeInTheDocument();
+        expect(element).toBeInTheDocument();
+    }
 });
